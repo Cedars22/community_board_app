@@ -13,7 +13,6 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _authRemoteDataSource;
 
   @override
-  // TODO: implement onAuthStateChanged
   Stream<UserEntity?> get onAuthStateChanged {
     final controller = StreamController<UserEntity?>();
 
