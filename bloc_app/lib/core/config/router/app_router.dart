@@ -22,11 +22,11 @@ GoRouter createRouter(AuthenticationBloc authBloc) {
     initialLocation: RoutePaths.splash,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
     redirect: (BuildContext context, GoRouterState state) {
-      final authStatus = authBloc.state;
+      final authStatus = authBloc.state.status;
       final String location = state.matchedLocation;
 
-      final bool isSplash = location == RoutePaths.splash;
-      final bool isAuthRoute =
+      final isSplash = location == RoutePaths.splash;
+      final isAuthRoute =
           location == RoutePaths.login || location == RoutePaths.signup;
       if (authStatus == AuthenticationStatus.unknown) {
         return isSplash ? null : RoutePaths.splash;
