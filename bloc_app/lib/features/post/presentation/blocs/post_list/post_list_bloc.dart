@@ -16,6 +16,7 @@ class PostListBloc extends Bloc<PostListEvent, PostListState> {
     on<PostListFetched>(_onPostListFetched);
     on<PostLitstNextPageFetched>(_onPostListNextPageFetched);
     on<PostListRefreshed>(_onPostListRefreshed);
+    on<PostListTransientFailureConsumed>(_postPostListTransientFailureConsumed);
   }
 
   final GetPostsUseCase _getPostsUseCase;
@@ -125,5 +126,12 @@ class PostListBloc extends Bloc<PostListEvent, PostListState> {
         );
       },
     );
+  }
+
+  void _postPostListTransientFailureConsumed(
+    PostListTransientFailureConsumed event,
+    Emitter<PostListState> emit,
+  ) {
+    emit(state.copyWith(transientFailure: () => null));
   }
 }
