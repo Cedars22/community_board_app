@@ -11,7 +11,6 @@ class GetPostsParams {
   final int offset;
   final int limit;
 
-  @override
   List<Object> get props => [offset, limit];
 }
 
