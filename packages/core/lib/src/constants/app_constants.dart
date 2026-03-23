@@ -37,4 +37,5 @@ abstract class DBFunctions {
 
 abstract class PostgresErrors {
   static const String insufficientPrivilege = '42501';
+  static const String moreThanOneOrNotItemsReturned = 'PGRST116';
 }
