@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/di/di.dart';
 import '../blocs/post_list/post_list_bloc.dart';
+import '../widgets/post_card.dart';
 
 class PostPage extends StatelessWidget {
   const PostPage({super.key});
@@ -146,11 +147,7 @@ class _PostViewState extends State<PostView> {
                           : const SizedBox.shrink();
                     }
                     final post = state.posts[index];
-                    // TODO: Create a PostCard widget
-                    return ListTile(
-                      title: Text(post.title),
-                      subtitle: Text(post.content),
-                    );
+                    return PostCard(post: post, onToggleLike: () {});
                   },
                 ),
               );
