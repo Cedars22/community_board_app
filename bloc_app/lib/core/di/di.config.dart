@@ -22,6 +22,8 @@ import '../../features/auth/presentation/blocs/authentication/authentication_blo
     as _i652;
 import '../../features/auth/presentation/blocs/login/login_bloc.dart' as _i1018;
 import '../../features/auth/presentation/blocs/signup/signup_bloc.dart' as _i41;
+import '../../features/post/presentation/blocs/post_form/post_form_bloc.dart'
+    as _i79;
 import '../../features/post/presentation/blocs/post_list/post_list_bloc.dart'
     as _i409;
 import 'register_module.dart' as _i291;
@@ -67,6 +69,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i456.CreatePostUseCase>(() => registerModule.createPostUsecase);
     gh.factory<_i456.UploadPostImageUseCase>(
       () => registerModule.uploadPostImageUseCase,
+    );
+    gh.factory<_i79.PostFormBloc>(
+      () => _i79.PostFormBloc(
+        createPostUseCase: gh<_i456.CreatePostUseCase>(),
+        uploadPostImageUseCase: gh<_i456.UploadPostImageUseCase>(),
+      ),
     );
     gh.singleton<_i583.GoRouter>(
       () => registerModule.router(gh<_i652.AuthenticationBloc>()),

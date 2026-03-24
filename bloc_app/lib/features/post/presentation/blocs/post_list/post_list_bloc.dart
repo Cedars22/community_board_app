@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:core/errors.dart';
 import 'package:domain/post.dart';
+import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
 part 'post_list_event.dart';
@@ -12,7 +13,7 @@ const _pageSize = 5;
 class PostListBloc extends Bloc<PostListEvent, PostListState> {
   PostListBloc({required GetPostsUseCase getPostUseCase})
     : _getPostsUseCase = getPostUseCase,
-      super(PostListState()) {
+      super(const PostListState()) {
     on<PostListFetched>(_onPostListFetched);
     on<PostLitstNextPageFetched>(_onPostListNextPageFetched);
     on<PostListRefreshed>(_onPostListRefreshed);

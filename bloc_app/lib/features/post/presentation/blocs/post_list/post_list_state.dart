@@ -10,8 +10,8 @@ enum PostListStatus {
   refreshing,
 }
 
-class PostListState {
-  PostListState({
+class PostListState extends Equatable {
+  const PostListState({
     this.status = PostListStatus.initial,
     this.posts = const [],
     this.hasReachedMax = false,
