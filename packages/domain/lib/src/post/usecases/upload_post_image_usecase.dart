@@ -17,9 +17,9 @@ class UploadPostImageParams extends Equatable {
   List<Object?> get props => [image, postId];
 }
 
-class UploadPostImageUsecase
+class UploadPostImageUseCase
     implements UseCase<ImageUploadResult, UploadPostImageParams> {
-  UploadPostImageUsecase({required PostRepository postRepository})
+  UploadPostImageUseCase({required PostRepository postRepository})
     : _postRepository = postRepository;
 
   final PostRepository _postRepository;

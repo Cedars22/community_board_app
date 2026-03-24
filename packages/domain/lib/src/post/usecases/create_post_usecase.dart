@@ -21,8 +21,8 @@ class CreatePostParams extends Equatable {
   List<Object?> get props => [postId, title, content, imageUrl];
 }
 
-class CreatePostUsecase {
-  CreatePostUsecase({required PostRepository postRepository})
+class CreatePostUseCase {
+  CreatePostUseCase({required PostRepository postRepository})
     : _postRepository = postRepository;
 
   final PostRepository _postRepository;

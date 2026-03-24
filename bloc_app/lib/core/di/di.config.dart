@@ -64,6 +64,10 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1018.LoginBloc(loginUseCase: gh<_i378.LoginUseCase>()),
     );
     gh.factory<_i456.GetPostsUseCase>(() => registerModule.getPostsUseCase);
+    gh.factory<_i456.CreatePostUseCase>(() => registerModule.createPostUsecase);
+    gh.factory<_i456.UploadPostImageUseCase>(
+      () => registerModule.uploadPostImageUseCase,
+    );
     gh.singleton<_i583.GoRouter>(
       () => registerModule.router(gh<_i652.AuthenticationBloc>()),
     );
@@ -116,4 +120,14 @@ class _$RegisterModule extends _i291.RegisterModule {
   @override
   _i456.GetPostsUseCase get getPostsUseCase =>
       _i456.GetPostsUseCase(postRepository: _getIt<_i456.PostRepository>());
+
+  @override
+  _i456.CreatePostUseCase get createPostUsecase =>
+      _i456.CreatePostUseCase(postRepository: _getIt<_i456.PostRepository>());
+
+  @override
+  _i456.UploadPostImageUseCase get uploadPostImageUseCase =>
+      _i456.UploadPostImageUseCase(
+        postRepository: _getIt<_i456.PostRepository>(),
+      );
 }
