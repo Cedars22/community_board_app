@@ -85,4 +85,20 @@ class PostRepositoryImpl implements PostRepository {
       return Left(UnknownFailure(message: e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, List<CommentDisplay>>> getComments({
+    required String postId,
+    required int offset,
+    required int limit,
+  }) {
+    // TODO: implement getComments
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, PostDisplay>> getPostDetail({required String postId}) {
+    // TODO: implement getPostDetail
+    throw UnimplementedError();
+  }
 }
