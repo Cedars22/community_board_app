@@ -4,8 +4,8 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../../post.dart';
 
-class GetPostDetailUsecase implements UseCase<PostDisplay, String> {
-  GetPostDetailUsecase({required PostRepository postRepository})
+class GetPostDetailUseCase implements UseCase<PostDisplay, String> {
+  GetPostDetailUseCase({required PostRepository postRepository})
     : _postRepository = postRepository;
 
   final PostRepository _postRepository;

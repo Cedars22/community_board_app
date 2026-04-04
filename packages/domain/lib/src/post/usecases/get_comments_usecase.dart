@@ -1,7 +1,7 @@
-import 'package:core/src/errors/failures.dart';
+import 'package:core/errors.dart';
 import 'package:core/usecase.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../../../post.dart';
 
@@ -20,9 +20,9 @@ class GetCommentsParams extends Equatable {
   List<Object?> get props => [postId, offset, limit];
 }
 
-class GetCommentsUsecase
+class GetCommentsUseCase
     implements UseCase<List<CommentDisplay>, GetCommentsParams> {
-  GetCommentsUsecase({required PostRepository postRepository})
+  GetCommentsUseCase({required PostRepository postRepository})
     : _postRepository = postRepository;
 
   final PostRepository _postRepository;
