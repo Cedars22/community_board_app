@@ -8,7 +8,7 @@ class PostDisplay extends Equatable {
     required this.postCreatedAt,
     required this.postUpdatedAt,
     required this.authorId,
-    required this.authonUsername,
+    required this.authorUsername,
     required this.authorRole,
     required this.likesCount,
     required this.commentsCount,
@@ -24,7 +24,7 @@ class PostDisplay extends Equatable {
   final DateTime postCreatedAt;
   final DateTime postUpdatedAt;
   final String authorId;
-  final String authonUsername;
+  final String authorUsername;
   final String? authorAvatarUrl;
   final String authorRole;
   final int likesCount;
@@ -40,7 +40,7 @@ class PostDisplay extends Equatable {
     postCreatedAt,
     postUpdatedAt,
     authorId,
-    authonUsername,
+    authorUsername,
     authorAvatarUrl,
     authorRole,
     likesCount,
@@ -55,7 +55,7 @@ class PostDisplay extends Equatable {
     DateTime? postCreatedAt,
     DateTime? postUpdatedAt,
     String? authorId,
-    String? authonUsername,
+    String? authorUsername,
     String? Function()? authorAvatarUrl,
     String? authorRole,
     int? likesCount,
@@ -70,7 +70,7 @@ class PostDisplay extends Equatable {
       postCreatedAt: postCreatedAt ?? this.postCreatedAt,
       postUpdatedAt: postUpdatedAt ?? this.postUpdatedAt,
       authorId: authorId ?? this.authorId,
-      authonUsername: authonUsername ?? this.authonUsername,
+      authorUsername: authorUsername ?? this.authorUsername,
       authorAvatarUrl: authorAvatarUrl != null
           ? authorAvatarUrl()
           : this.authorAvatarUrl,

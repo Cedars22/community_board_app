@@ -13,7 +13,7 @@ class PostDisplayModel extends PostDisplay {
     required super.postCreatedAt,
     required super.postUpdatedAt,
     required super.authorId,
-    required super.authonUsername,
+    required super.authorUsername,
     super.authorAvatarUrl,
     required super.authorRole,
     required super.likesCount,
@@ -46,7 +46,7 @@ class PostDisplayModel extends PostDisplay {
 
   @JsonKey(name: 'author_username')
   @override
-  String get authonUsername;
+  String get authorUsername;
 
   @JsonKey(name: 'author_avatar_url')
   @override
