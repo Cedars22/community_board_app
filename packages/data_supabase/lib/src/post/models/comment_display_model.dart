@@ -24,7 +24,7 @@ class CommentDisplayModel extends CommentDisplay {
 
   @JsonKey(name: 'created_at')
   @override
-  String get createdAt;
+  DateTime get createdAt;
 
   @JsonKey(name: 'author_id')
   @override

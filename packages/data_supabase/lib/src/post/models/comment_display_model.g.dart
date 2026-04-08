@@ -11,7 +11,7 @@ CommentDisplayModel _$CommentDisplayModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       postId: json['post_id'] as String,
       content: json['content'] as String,
-      createdAt: json['created_at'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
       authorId: json['author_id'] as String,
       authorUsername: json['author_username'] as String,
       authorAvatarUrl: json['author_avatar_url'] as String?,

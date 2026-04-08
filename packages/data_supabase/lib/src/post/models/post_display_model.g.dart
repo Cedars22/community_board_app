@@ -15,7 +15,7 @@ PostDisplayModel _$PostDisplayModelFromJson(Map<String, dynamic> json) =>
       postCreatedAt: DateTime.parse(json['post_created_at'] as String),
       postUpdatedAt: DateTime.parse(json['post_updated_at'] as String),
       authorId: json['author_id'] as String,
-      authonUsername: json['author_username'] as String,
+      authorUsername: json['author_username'] as String,
       authorAvatarUrl: json['author_avatar_url'] as String?,
       authorRole: json['author_role'] as String,
       likesCount: (json['likes_count'] as num).toInt(),
