@@ -11,6 +11,7 @@ import '../../../../core/di/di.dart';
 import '../../../auth/presentation/blocs/authentication/authentication_bloc.dart';
 import '../blocs/comment_list/comment_list_bloc.dart';
 import '../blocs/post_detail/post_detail_bloc.dart';
+import '../widgets/comment_list_view.dart';
 
 class PostDetailPage extends StatelessWidget {
   const PostDetailPage({super.key, required this.postId});
@@ -134,7 +135,14 @@ class _PostDetailViewState extends State<PostDetailView> {
         child: CustomScrollView(
           controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [SliverToBoxAdapter(child: _buildPostDetail(context, post))],
+          slivers: [
+            SliverToBoxAdapter(child: _buildPostDetail(context, post)),
+            const SliverToBoxAdapter(child: Divider(height: 1)),
+            const SliverPadding(
+              padding: EdgeInsetsGeometry.all(16),
+              sliver: CommentListView(),
+            ),
+          ],
         ),
       ),
     );
