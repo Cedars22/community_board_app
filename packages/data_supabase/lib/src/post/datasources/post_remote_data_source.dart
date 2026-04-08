@@ -29,4 +29,6 @@ abstract interface class PostRemoteDataSource {
     required int offset,
     required int limit,
   });
+
+  Future<LikeResultModel> toggleLike({required String postId});
 }

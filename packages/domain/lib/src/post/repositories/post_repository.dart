@@ -29,4 +29,6 @@ abstract interface class PostRepository {
     required int offset,
     required int limit,
   });
+
+  Future<Either<Failure, LikeResult>> toggleLike({required String postId});
 }
