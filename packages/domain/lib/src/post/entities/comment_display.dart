@@ -14,7 +14,7 @@ class CommentDisplay extends Equatable {
   final String id;
   final String postId;
   final String content;
-  final String createdAt;
+  final DateTime createdAt;
   final String authorId;
   final String authorUsername;
   final String? authorAvatarUrl;
