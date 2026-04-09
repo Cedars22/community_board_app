@@ -56,4 +56,7 @@ abstract class RegisterModule {
 
   @injectable
   GetCommentsUseCase get getCommentsUsecase;
+
+  @injectable
+  ToggleLikeUseCase get toggleLikeUseCase;
 }

@@ -85,6 +85,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i456.GetCommentsUseCase>(
       () => registerModule.getCommentsUsecase,
     );
+    gh.factory<_i456.ToggleLikeUseCase>(() => registerModule.toggleLikeUseCase);
     gh.factory<_i169.PostDetailBloc>(
       () => _i169.PostDetailBloc(
         getpostDetailUseCase: gh<_i456.GetPostDetailUseCase>(),
@@ -93,6 +94,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1009.CommentListBloc>(
       () => _i1009.CommentListBloc(
         getCommentsUseCase: gh<_i456.GetCommentsUseCase>(),
+      ),
+    );
+    gh.factory<_i409.PostListBloc>(
+      () => _i409.PostListBloc(
+        getPostUseCase: gh<_i456.GetPostsUseCase>(),
+        toggleLikeUseCase: gh<_i456.ToggleLikeUseCase>(),
+        globalEventBus: gh<_i91.GlobalEventBus>(),
       ),
     );
     gh.factory<_i79.PostFormBloc>(
@@ -104,12 +112,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i583.GoRouter>(
       () => registerModule.router(gh<_i652.AuthenticationBloc>()),
-    );
-    gh.factory<_i409.PostListBloc>(
-      () => _i409.PostListBloc(
-        getPostUseCase: gh<_i456.GetPostsUseCase>(),
-        globalEventBus: gh<_i91.GlobalEventBus>(),
-      ),
     );
     return this;
   }
@@ -177,4 +179,8 @@ class _$RegisterModule extends _i291.RegisterModule {
   @override
   _i456.GetCommentsUseCase get getCommentsUsecase =>
       _i456.GetCommentsUseCase(postRepository: _getIt<_i456.PostRepository>());
+
+  @override
+  _i456.ToggleLikeUseCase get toggleLikeUseCase =>
+      _i456.ToggleLikeUseCase(postRepository: _getIt<_i456.PostRepository>());
 }
