@@ -229,7 +229,11 @@ class _PostDetailViewState extends State<PostDetailView> {
           Row(
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<PostDetailBloc>().add(
+                    const PostDetailLikeToggled(),
+                  );
+                },
                 icon: Icon(
                   post.currentUserLiked
                       ? Icons.thumb_up

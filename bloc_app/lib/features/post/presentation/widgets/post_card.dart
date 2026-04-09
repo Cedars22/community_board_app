@@ -122,7 +122,7 @@ class PostCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: onToggleLike,
                       icon: Icon(
                         post.currentUserLiked
                             ? Icons.thumb_up

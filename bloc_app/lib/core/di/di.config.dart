@@ -86,11 +86,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.getCommentsUsecase,
     );
     gh.factory<_i456.ToggleLikeUseCase>(() => registerModule.toggleLikeUseCase);
-    gh.factory<_i169.PostDetailBloc>(
-      () => _i169.PostDetailBloc(
-        getpostDetailUseCase: gh<_i456.GetPostDetailUseCase>(),
-      ),
-    );
     gh.factory<_i1009.CommentListBloc>(
       () => _i1009.CommentListBloc(
         getCommentsUseCase: gh<_i456.GetCommentsUseCase>(),
@@ -112,6 +107,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i583.GoRouter>(
       () => registerModule.router(gh<_i652.AuthenticationBloc>()),
+    );
+    gh.factory<_i169.PostDetailBloc>(
+      () => _i169.PostDetailBloc(
+        getpostDetailUseCase: gh<_i456.GetPostDetailUseCase>(),
+        toggleLikeUseCase: gh<_i456.ToggleLikeUseCase>(),
+        globalEventBus: gh<_i91.GlobalEventBus>(),
+      ),
     );
     return this;
   }
