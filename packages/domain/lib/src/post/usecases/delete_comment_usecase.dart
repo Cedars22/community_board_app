@@ -4,8 +4,8 @@ import 'package:fpdart/fpdart.dart';
 
 import '../post.dart';
 
-class DeleteCommentUsecase implements UseCase<void, String> {
-  DeleteCommentUsecase({required PostRepository postRepository})
+class DeleteCommentUseCase implements UseCase<void, String> {
+  DeleteCommentUseCase({required PostRepository postRepository})
     : _postRepository = postRepository;
 
   final PostRepository _postRepository;

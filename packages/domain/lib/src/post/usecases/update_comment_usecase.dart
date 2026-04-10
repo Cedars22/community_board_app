@@ -18,9 +18,9 @@ class UpdateCommentParams extends Equatable {
   List<Object> get props => [commentId, newContent];
 }
 
-class UpdateCommentUsecase
+class UpdateCommentUseCase
     implements UseCase<CommentDisplay, UpdateCommentParams> {
-  UpdateCommentUsecase({required PostRepository postRepository})
+  UpdateCommentUseCase({required PostRepository postRepository})
     : _postRepository = postRepository;
 
   final PostRepository _postRepository;

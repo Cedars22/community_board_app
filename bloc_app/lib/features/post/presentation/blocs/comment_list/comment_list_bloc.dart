@@ -4,6 +4,9 @@ import 'package:domain/post.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../../core/bus/global_event.dart';
+import '../../../../../core/bus/global_event_bus.dart';
+
 part 'comment_list_event.dart';
 part 'comment_list_state.dart';
 
@@ -11,18 +14,35 @@ const _commentPageSize = 10;
 
 @injectable
 class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
-  CommentListBloc({required GetCommentsUseCase getCommentsUseCase})
-    : _getCommentsUseCase = getCommentsUseCase,
-      super(const CommentListState()) {
+  CommentListBloc({
+    required GetCommentsUseCase getCommentsUseCase,
+    required CreateCommentUseCase createCommentUseCase,
+    required DeleteCommentUseCase deleteCommentUseCase,
+    required UpdateCommentUseCase updateCommentUseCase,
+    required GetPostDetailUseCase getPostDetailUseCase,
+    required GlobalEventBus globalEventBus,
+  }) : _getCommentsUseCase = getCommentsUseCase,
+       _createCommentUseCase = createCommentUseCase,
+       _deleteCommentUseCase = deleteCommentUseCase,
+       _updateCommentUseCase = updateCommentUseCase,
+       _getPostDetailUseCase = getPostDetailUseCase,
+       _globalEventBus = globalEventBus,
+       super(const CommentListState()) {
     on<CommentListFetched>(_onCommentListFetched);
     on<CommentListNextPageFetched>(_onCommentListNextPageFetched);
     on<CommentListRefreshed>(_onCommentListRefreshed);
     on<CommentListTransientFailureConsumed>(
       _onCommentListTransientFailureConsumed,
     );
+    on<CommentAdded>(_onCommentAdded);
   }
 
   final GetCommentsUseCase _getCommentsUseCase;
+  final CreateCommentUseCase _createCommentUseCase;
+  final DeleteCommentUseCase _deleteCommentUseCase;
+  final UpdateCommentUseCase _updateCommentUseCase;
+  final GetPostDetailUseCase _getPostDetailUseCase;
+  final GlobalEventBus _globalEventBus;
 
   bool get _isBusy =>
       state.status == CommentListStatus.loading ||
@@ -136,5 +156,48 @@ class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
     Emitter<CommentListState> emit,
   ) {
     emit(state.copyWith(transientFailure: () => null));
+  }
+
+  Future<void> _onCommentAdded(
+    CommentAdded event,
+    Emitter<CommentListState> emit,
+  ) async {
+    if (_isBusy) return;
+
+    emit(
+      state.copyWith(
+        status: CommentListStatus.submitting,
+        transientFailure: () => null,
+      ),
+    );
+
+    final result = await _createCommentUseCase(
+      CreateCommentParams(postId: event.postId, content: event.content),
+    );
+
+    await result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            status: CommentListStatus.loaded,
+            transientFailure: () => failure,
+          ),
+        );
+      },
+      (newComment) async {
+        final updateedComments = [newComment, ...state.comments];
+        emit(
+          state.copyWith(
+            status: CommentListStatus.loaded,
+            comments: updateedComments,
+          ),
+        );
+
+        final postResult = await _getPostDetailUseCase(event.postId);
+        postResult.fold((l) => null, (updatedPost) {
+          _globalEventBus.add(PostUpdatedDispatched(post: updatedPost));
+        });
+      },
+    );
   }
 }
