@@ -65,3 +65,12 @@ final class CommentEdited extends CommentListEvent {
   @override
   List<Object> get props => [commentId, newContent];
 }
+
+final class _CommentListRefillRequested extends CommentListEvent {
+  const _CommentListRefillRequested({required this.postId});
+
+  final String postId;
+
+  @override
+  List<Object> get props => [postId];
+}

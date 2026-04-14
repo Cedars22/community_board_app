@@ -35,6 +35,9 @@ class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
       _onCommentListTransientFailureConsumed,
     );
     on<CommentAdded>(_onCommentAdded);
+    on<CommentDeleted>(_onCommentDeleted);
+    on<CommentEdited>(_onCommentEdited);
+    on<_CommentListRefillRequested>(_onCommentListRefillRequested);
   }
 
   final GetCommentsUseCase _getCommentsUseCase;
@@ -197,6 +200,144 @@ class CommentListBloc extends Bloc<CommentListEvent, CommentListState> {
         postResult.fold((l) => null, (updatedPost) {
           _globalEventBus.add(PostUpdatedDispatched(post: updatedPost));
         });
+      },
+    );
+  }
+
+  Future<void> _onCommentDeleted(
+    CommentDeleted event,
+    Emitter<CommentListState> emit,
+  ) async {
+    if (_isBusy) return;
+
+    emit(
+      state.copyWith(
+        submittingCommentId: () => event.commentId,
+        transientFailure: () => null,
+      ),
+    );
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    final result = await _deleteCommentUseCase(event.commentId);
+
+    await result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            submittingCommentId: () => null,
+            transientFailure: () => failure,
+          ),
+        );
+      },
+      (_) async {
+        final updatedComments = List<CommentDisplay>.from(state.comments)
+          ..removeWhere((comment) => comment.id == event.commentId);
+
+        emit(
+          state.copyWith(
+            comments: updatedComments,
+            submittingCommentId: () => null,
+          ),
+        );
+
+        add(_CommentListRefillRequested(postId: event.postId));
+
+        final postResult = await _getPostDetailUseCase(event.postId);
+        postResult.fold((l) => null, (updatedPost) {
+          _globalEventBus.add(PostUpdatedDispatched(post: updatedPost));
+        });
+      },
+    );
+  }
+
+  Future<void> _onCommentListRefillRequested(
+    _CommentListRefillRequested event,
+    Emitter<CommentListState> emit,
+  ) async {
+    if (_isBusy || state.hasReachedMax) return;
+
+    emit(state.copyWith(status: CommentListStatus.refilling));
+
+    final result = await _getCommentsUseCase(
+      GetCommentsParams(
+        postId: event.postId,
+        offset: state.comments.length,
+        limit: 1,
+      ),
+    );
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            status: CommentListStatus.loaded,
+            transientFailure: () => failure,
+          ),
+        );
+      },
+      (newComments) {
+        if (newComments.isNotEmpty) {
+          emit(
+            state.copyWith(
+              status: CommentListStatus.loaded,
+              comments: [...state.comments, ...newComments],
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              status: CommentListStatus.loaded,
+              hasReachedMax: true,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Future<void> _onCommentEdited(
+    CommentEdited event,
+    Emitter<CommentListState> emit,
+  ) async {
+    if (_isBusy) return;
+
+    emit(
+      state.copyWith(
+        submittingCommentId: () => event.commentId,
+        transientFailure: () => null,
+      ),
+    );
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    final result = await _updateCommentUseCase(
+      UpdateCommentParams(
+        commentId: event.commentId,
+        newContent: event.newContent,
+      ),
+    );
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            submittingCommentId: () => null,
+            transientFailure: () => failure,
+          ),
+        );
+      },
+      (updatedComment) {
+        final updatedList = state.comments.map((comment) {
+          return comment.id == updatedComment.id ? updatedComment : comment;
+        }).toList();
+
+        emit(
+          state.copyWith(
+            comments: updatedList,
+            submittingCommentId: () => null,
+          ),
+        );
       },
     );
   }
