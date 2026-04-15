@@ -30,6 +30,7 @@ class PostListBloc extends Bloc<PostListEvent, PostListState> {
     on<PostListTransientFailureConsumed>(_postPostListTransientFailureConsumed);
     on<PostLikeToggled>(_onPostLikeToggled);
     on<_GlobalEventReceived>(_onGlobalEventReceived);
+    on<_PostListRefillRequested>(_onPostListRefillRequested);
 
     _globalEventBusSubscription = _globalEventBus.stream.listen((event) {
       add(_GlobalEventReceived(event: event));
@@ -228,7 +229,53 @@ class PostListBloc extends Bloc<PostListEvent, PostListState> {
           return p.postId == updatedPost.postId ? updatedPost : p;
         }).toList();
         emit(state.copyWith(posts: newPosts));
+      case PostDeletedDispatched(postId: final deletedPostId):
+        final currentPosts = state.posts;
+        final newPosts = currentPosts
+            .where((p) => p.postId != deletedPostId)
+            .toList();
+        emit(state.copyWith(posts: newPosts));
+
+        add(_PostListRefillRequested());
     }
+  }
+
+  Future<void> _onPostListRefillRequested(
+    _PostListRefillRequested event,
+    Emitter<PostListState> emit,
+  ) async {
+    if (_isBusy || state.hasReachedMax) return;
+
+    emit(state.copyWith(status: PostListStatus.refilling));
+
+    final result = await _getPostsUseCase(
+      GetPostsParams(offset: state.posts.length, limit: 1),
+    );
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            status: PostListStatus.loaded,
+            transientFailure: () => failure,
+          ),
+        );
+      },
+      (newPost) {
+        if (newPost.isNotEmpty) {
+          emit(
+            state.copyWith(
+              status: PostListStatus.loaded,
+              posts: [...state.posts, ...newPost],
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(status: PostListStatus.loaded, hasReachedMax: true),
+          );
+        }
+      },
+    );
   }
 
   @override

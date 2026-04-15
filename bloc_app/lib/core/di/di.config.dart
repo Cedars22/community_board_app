@@ -95,6 +95,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i456.UpdateCommentUseCase>(
       () => registerModule.updateCommentUseCase,
     );
+    gh.factory<_i456.DeletePostUseCase>(() => registerModule.deletePostUseCase);
+    gh.factory<_i456.DeletePostFolderUseCase>(
+      () => registerModule.deletePostFolderUseCase,
+    );
+    gh.factory<_i456.UpdatePostUseCase>(() => registerModule.updatePostUseCase);
+    gh.factory<_i169.PostDetailBloc>(
+      () => _i169.PostDetailBloc(
+        getpostDetailUseCase: gh<_i456.GetPostDetailUseCase>(),
+        toggleLikeUseCase: gh<_i456.ToggleLikeUseCase>(),
+        deletePostUseCase: gh<_i456.DeletePostUseCase>(),
+        deletePostFolderUseCase: gh<_i456.DeletePostFolderUseCase>(),
+        globalEventBus: gh<_i91.GlobalEventBus>(),
+      ),
+    );
     gh.factory<_i409.PostListBloc>(
       () => _i409.PostListBloc(
         getPostUseCase: gh<_i456.GetPostsUseCase>(),
@@ -121,13 +135,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i583.GoRouter>(
       () => registerModule.router(gh<_i652.AuthenticationBloc>()),
-    );
-    gh.factory<_i169.PostDetailBloc>(
-      () => _i169.PostDetailBloc(
-        getpostDetailUseCase: gh<_i456.GetPostDetailUseCase>(),
-        toggleLikeUseCase: gh<_i456.ToggleLikeUseCase>(),
-        globalEventBus: gh<_i91.GlobalEventBus>(),
-      ),
     );
     return this;
   }
@@ -217,4 +224,18 @@ class _$RegisterModule extends _i291.RegisterModule {
       _i456.UpdateCommentUseCase(
         postRepository: _getIt<_i456.PostRepository>(),
       );
+
+  @override
+  _i456.DeletePostUseCase get deletePostUseCase =>
+      _i456.DeletePostUseCase(postRepository: _getIt<_i456.PostRepository>());
+
+  @override
+  _i456.DeletePostFolderUseCase get deletePostFolderUseCase =>
+      _i456.DeletePostFolderUseCase(
+        postRepository: _getIt<_i456.PostRepository>(),
+      );
+
+  @override
+  _i456.UpdatePostUseCase get updatePostUseCase =>
+      _i456.UpdatePostUseCase(postRepository: _getIt<_i456.PostRepository>());
 }

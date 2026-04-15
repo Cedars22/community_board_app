@@ -17,14 +17,19 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
   PostDetailBloc({
     required GetPostDetailUseCase getpostDetailUseCase,
     required ToggleLikeUseCase toggleLikeUseCase,
+    required DeletePostUseCase deletePostUseCase,
+    required DeletePostFolderUseCase deletePostFolderUseCase,
     required GlobalEventBus globalEventBus,
   }) : _getPostDetailUseCase = getpostDetailUseCase,
        _toggleLikeUseCase = toggleLikeUseCase,
+       _deletePostUseCase = deletePostUseCase,
+       _deletePostFolderUseCase = deletePostFolderUseCase,
        _globalEventBus = globalEventBus,
        super(const PostDetailState()) {
     on<PostDetailEvent>((event, emit) {
       on<PostDetailFetched>(_onPostDetailFetched);
       on<PostDetailLikeToggled>(_onPostDetailLikeToggled);
+      on<PostDeleted>(_onPostDeleted);
       on<_PostUpdatedFormBus>(_onPostUpdatedFromBus);
 
       _globalEventBusSubscription = _globalEventBus.stream.listen((event) {
@@ -39,6 +44,8 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
 
   final GetPostDetailUseCase _getPostDetailUseCase;
   final ToggleLikeUseCase _toggleLikeUseCase;
+  final DeletePostUseCase _deletePostUseCase;
+  final DeletePostFolderUseCase _deletePostFolderUseCase;
   final GlobalEventBus _globalEventBus;
 
   StreamSubscription<GlobalEvent>? _globalEventBusSubscription;
@@ -108,6 +115,50 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
         emit(state.copyWith(post: () => authoritativePost));
 
         _globalEventBus.add(PostUpdatedDispatched(post: authoritativePost));
+      },
+    );
+  }
+
+  Future<void> _onPostDeleted(
+    PostDeleted event,
+    Emitter<PostDetailState> emit,
+  ) async {
+    if (_isBusy || state.post == null) return;
+
+    final postToDelete = state.post!;
+
+    emit(
+      state.copyWith(
+        status: PostDetailStatus.submitting,
+        transientFailure: () => null,
+      ),
+    );
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    final result = await _deletePostUseCase(postToDelete.postId);
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            status: PostDetailStatus.loaded,
+            transientFailure: () => failure,
+          ),
+        );
+      },
+      (_) {
+        if (postToDelete.imageUrl != null) {
+          _deletePostFolderUseCase(postToDelete.postId);
+        }
+        _globalEventBus.add(PostDeletedDispatched(postId: postToDelete.postId));
+
+        emit(
+          state.copyWith(
+            status: PostDetailStatus.loaded,
+            deletionSuccess: true,
+          ),
+        );
       },
     );
   }
