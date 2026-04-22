@@ -29,6 +29,9 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
     on<PostDetailEvent>((event, emit) {
       on<PostDetailFetched>(_onPostDetailFetched);
       on<PostDetailLikeToggled>(_onPostDetailLikeToggled);
+      on<PostDetailTransientFailureConsumed>(
+        _onPostDetailTransientFailureConsumed,
+      );
       on<PostDeleted>(_onPostDeleted);
       on<_PostUpdatedFormBus>(_onPostUpdatedFromBus);
 
@@ -161,6 +164,13 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
         );
       },
     );
+  }
+
+  void _onPostDetailTransientFailureConsumed(
+    PostDetailTransientFailureConsumed event,
+    Emitter<PostDetailState> emit,
+  ) {
+    emit(state.copyWith(transientFailure: () => null));
   }
 
   void _onPostUpdatedFromBus(

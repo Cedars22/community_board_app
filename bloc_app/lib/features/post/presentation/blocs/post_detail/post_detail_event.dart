@@ -24,6 +24,8 @@ final class PostDeleted extends PostDetailEvent {
   const PostDeleted();
 }
 
+final class PostDetailTransientFailureConsumed extends PostDetailEvent {}
+
 final class _PostUpdatedFormBus extends PostDetailEvent {
   const _PostUpdatedFormBus({required this.post});
 
