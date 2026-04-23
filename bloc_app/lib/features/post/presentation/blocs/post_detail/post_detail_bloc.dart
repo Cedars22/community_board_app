@@ -26,22 +26,20 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
        _deletePostFolderUseCase = deletePostFolderUseCase,
        _globalEventBus = globalEventBus,
        super(const PostDetailState()) {
-    on<PostDetailEvent>((event, emit) {
-      on<PostDetailFetched>(_onPostDetailFetched);
-      on<PostDetailLikeToggled>(_onPostDetailLikeToggled);
-      on<PostDetailTransientFailureConsumed>(
-        _onPostDetailTransientFailureConsumed,
-      );
-      on<PostDeleted>(_onPostDeleted);
-      on<_PostUpdatedFormBus>(_onPostUpdatedFromBus);
+    on<PostDetailFetched>(_onPostDetailFetched);
+    on<PostDetailLikeToggled>(_onPostDetailLikeToggled);
+    on<PostDetailTransientFailureConsumed>(
+      _onPostDetailTransientFailureConsumed,
+    );
+    on<PostDeleted>(_onPostDeleted);
+    on<_PostUpdatedFormBus>(_onPostUpdatedFromBus);
 
-      _globalEventBusSubscription = _globalEventBus.stream.listen((event) {
-        if (event is PostUpdatedDispatched) {
-          if (state.post?.postId == event.post.postId) {
-            add(_PostUpdatedFormBus(post: event.post));
-          }
+    _globalEventBusSubscription = _globalEventBus.stream.listen((event) {
+      if (event is PostUpdatedDispatched) {
+        if (state.post?.postId == event.post.postId) {
+          add(_PostUpdatedFormBus(post: event.post));
         }
-      });
+      }
     });
   }
 
