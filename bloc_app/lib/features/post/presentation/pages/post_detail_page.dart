@@ -186,7 +186,7 @@ class _PostDetailViewState extends State<PostDetailView> {
           case _:
             final post = state.post!;
             final canModify =
-                (currentUser?.id == post.postId) &&
+                (currentUser?.id == post.authorId) &&
                 (currentUserRole == Roles.admin);
 
             return Scaffold(
