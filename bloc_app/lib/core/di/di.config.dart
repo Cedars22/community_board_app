@@ -107,6 +107,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.deletePostFolderUseCase,
     );
     gh.factory<_i456.UpdatePostUseCase>(() => registerModule.updatePostUseCase);
+    gh.factory<_i456.GetMyPostUseCase>(() => registerModule.getMyPostUseCase);
     gh.lazySingleton<_i503.ProfileRepository>(
       () => registerModule.profileRepository,
     );
@@ -266,6 +267,10 @@ class _$RegisterModule extends _i291.RegisterModule {
   @override
   _i456.UpdatePostUseCase get updatePostUseCase =>
       _i456.UpdatePostUseCase(postRepository: _getIt<_i456.PostRepository>());
+
+  @override
+  _i456.GetMyPostUseCase get getMyPostUseCase =>
+      _i456.GetMyPostUseCase(postRepository: _getIt<_i456.PostRepository>());
 
   @override
   _i661.ProfileRepositoryImpl get profileRepository =>
