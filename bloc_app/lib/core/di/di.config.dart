@@ -26,6 +26,8 @@ import '../../features/auth/presentation/blocs/login/login_bloc.dart' as _i1018;
 import '../../features/auth/presentation/blocs/signup/signup_bloc.dart' as _i41;
 import '../../features/post/presentation/blocs/comment_list/comment_list_bloc.dart'
     as _i1009;
+import '../../features/post/presentation/blocs/my_post_list/my_post_list_bloc.dart'
+    as _i146;
 import '../../features/post/presentation/blocs/post_detail/post_detail_bloc.dart'
     as _i169;
 import '../../features/post/presentation/blocs/post_form/post_form_bloc.dart'
@@ -132,6 +134,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i409.PostListBloc>(
       () => _i409.PostListBloc(
         getPostUseCase: gh<_i456.GetPostsUseCase>(),
+        toggleLikeUseCase: gh<_i456.ToggleLikeUseCase>(),
+        globalEventBus: gh<_i91.GlobalEventBus>(),
+      ),
+    );
+    gh.factory<_i146.MyPostListBloc>(
+      () => _i146.MyPostListBloc(
+        getMyPostuseCase: gh<_i456.GetMyPostUseCase>(),
         toggleLikeUseCase: gh<_i456.ToggleLikeUseCase>(),
         globalEventBus: gh<_i91.GlobalEventBus>(),
       ),
