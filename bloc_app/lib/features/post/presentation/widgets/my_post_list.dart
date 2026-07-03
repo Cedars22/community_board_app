@@ -45,6 +45,9 @@ class MyPostList extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
+      itemCount: state.hasReachedMax
+          ? state.posts.length
+          : state.posts.length + 1,
       itemBuilder: (context, index) {
         if (index >= state.posts.length) {
           return state.status == MyPostListStatus.fetchingNextPage
