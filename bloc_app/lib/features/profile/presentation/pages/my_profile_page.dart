@@ -71,6 +71,15 @@ class MyProfileView extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
+                context.pushNamed(
+                  RouteNames.profileEdit,
+                  extra: context.read<ProfileBloc>(),
+                );
+              },
+              icon: const Icon(Icons.edit),
+            ),
+            IconButton(
+              onPressed: () {
                 context.read<AuthenticationBloc>().add(
                   AuthenticationLogoutRequested(),
                 );
