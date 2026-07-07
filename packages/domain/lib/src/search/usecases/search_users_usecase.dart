@@ -5,8 +5,8 @@ import 'package:fpdart/fpdart.dart';
 import '../../../auth.dart';
 import '../repositories/repositories.dart';
 
-class SearchUsersUsecase implements UseCase<List<UserEntity>, String> {
-  SearchUsersUsecase({required SearchRepository searchRepository})
+class SearchUsersUseCase implements UseCase<List<UserEntity>, String> {
+  SearchUsersUseCase({required SearchRepository searchRepository})
     : _searchRepository = searchRepository;
 
   final SearchRepository _searchRepository;

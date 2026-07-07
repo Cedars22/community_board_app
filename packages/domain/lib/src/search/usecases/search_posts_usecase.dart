@@ -5,8 +5,8 @@ import 'package:fpdart/fpdart.dart';
 import '../../../post.dart';
 import '../repositories/repositories.dart';
 
-class SearchPostsUsecase implements UseCase<List<PostDisplay>, String> {
-  SearchPostsUsecase({required SearchRepository searchRepository})
+class SearchPostsUseCase implements UseCase<List<PostDisplay>, String> {
+  SearchPostsUseCase({required SearchRepository searchRepository})
     : _searchRepository = searchRepository;
 
   final SearchRepository _searchRepository;
