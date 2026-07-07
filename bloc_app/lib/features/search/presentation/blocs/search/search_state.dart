@@ -1,14 +1,14 @@
 part of 'search_bloc.dart';
 
-enum SearchStatus { initial, loadingUsers, loadingPost, failure }
+enum SearchStatus { initial, loadingUsers, loadingPost, loaded, failure }
 
 class SearchState extends Equatable {
   const SearchState({
-    required this.status,
-    required this.users,
-    required this.posts,
-    required this.query,
-    required this.currentTabIndex,
+    this.status = SearchStatus.initial,
+    this.users = const [],
+    this.posts = const [],
+    this.query = '',
+    this.currentTabIndex = 0,
     this.failure,
     this.transientFailure,
   });
