@@ -42,6 +42,8 @@ import '../../features/profile/presentation/blocs/profile/profile_bloc.dart'
     as _i349;
 import '../../features/profile/presentation/blocs/user_profile/user_profile_bloc.dart'
     as _i634;
+import '../../features/search/presentation/blocs/search/search_bloc.dart'
+    as _i608;
 import '../bus/global_event_bus.dart' as _i91;
 import 'register_module.dart' as _i291;
 
@@ -175,6 +177,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i93.SearchUsersUseCase>(
       () => registerModule.searchUsersUseCase,
+    );
+    gh.factory<_i608.SearchBloc>(
+      () => _i608.SearchBloc(
+        searchUsersUseCase: gh<_i93.SearchUsersUseCase>(),
+        searchPostsUseCase: gh<_i93.SearchPostsUseCase>(),
+        togglePostLikeUseCase: gh<_i456.ToggleLikeUseCase>(),
+        globalEventBus: gh<_i91.GlobalEventBus>(),
+      ),
     );
     gh.factory<_i503.GetProfileUseCase>(() => registerModule.getProfileUseCase);
     gh.factory<_i503.UpdateProfileUseCase>(

@@ -37,7 +37,7 @@ final class _SearchExecutionTriggered extends SearchEvent {
 final class SearchPostLikeToggled extends SearchEvent {
   const SearchPostLikeToggled({required this.post});
 
-  final String post;
+  final PostDisplay post;
 
   @override
   List<Object> get props => [post];
@@ -51,3 +51,5 @@ final class _GlobalEventReceived extends SearchEvent {
   @override
   List<Object> get props => [event];
 }
+
+final class SearchTransientFailureConsumed extends SearchEvent {}
