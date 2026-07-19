@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/config/router/route_constants.dart';
 import '../../../../core/di/di.dart';
+import '../../../auth/presentation/blocs/authentication/authentication_bloc.dart';
+import '../../../post/presentation/widgets/post_card.dart';
 import '../blocs/search/search_bloc.dart';
 
 class SearchPage extends StatelessWidget {
@@ -118,7 +123,96 @@ class _SearchViewState extends State<SearchView>
               ),
             ),
           ),
-          body: TabBarView(controller: _tabController, children: []),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildUserResultsTab(context, state),
+              _buildPostResultsTab(context, state),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildUserResultsTab(BuildContext context, SearchState state) {
+    if (state.status == SearchStatus.loadingUsers) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (state.status == SearchStatus.failure) {
+      return Center(child: Text('Failed to search ${state.failure?.message}'));
+    }
+    if (state.query.trim().isEmpty) {
+      return const Center(child: Text('Search for users by their username'));
+    }
+
+    if (state.users.isEmpty && state.status == SearchStatus.loaded) {
+      return Center(child: Text('No users found for "${state.query}"'));
+    }
+
+    final currentUserId = context.select(
+      (AuthenticationBloc bloc) => bloc.state.user?.id,
+    );
+
+    return ListView.builder(
+      itemCount: state.users.length,
+      itemBuilder: (context, index) {
+        final user = state.users[index];
+
+        return ListTile(
+          leading: CircleAvatar(
+            backgroundImage:
+                (user.avatarUrl != null && user.avatarUrl!.isNotEmpty)
+                ? CachedNetworkImageProvider(user.avatarUrl!)
+                : null,
+            child: (user.avatarUrl == null || user.avatarUrl!.isEmpty)
+                ? const Icon(Icons.person)
+                : null,
+          ),
+          title: Text(user.username),
+          onTap: () {
+            if (currentUserId != user.id) {
+              context.pushNamed(
+                RouteNames.userDetail,
+                pathParameters: {'userId': user.id},
+              );
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildPostResultsTab(BuildContext context, SearchState state) {
+    if (state.status == SearchStatus.loadingPost) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (state.status == SearchStatus.failure) {
+      return Center(child: Text('Failed to search ${state.failure?.message}'));
+    }
+
+    final query = state.query.trim();
+
+    if (query.isEmpty || query.length < 2) {
+      return const Center(
+        child: Text('Enter at least 2 characters to search for posts'),
+      );
+    }
+
+    if (state.posts.isEmpty && state.status == SearchStatus.loaded) {
+      return Center(child: Text('No posts found for "${state.query}". '));
+    }
+
+    return ListView.builder(
+      itemCount: state.posts.length,
+      itemBuilder: (context, index) {
+        final post = state.posts[index];
+
+        return PostCard(
+          post: post,
+          onToggleLike: () {
+            context.read<SearchBloc>().add(SearchPostLikeToggled(post: post));
+          },
         );
       },
     );
