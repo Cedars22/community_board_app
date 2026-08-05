@@ -28,10 +28,10 @@ with clear separation between the presentation, domain, and data layers.
 
 Captured on the iOS simulator.
 
-| Feed | Feed (scrolled) | Post detail |
-| :--: | :--: | :--: |
-| <img src="docs/screenshots/feed.png" width="230" alt="Post feed" /> | <img src="docs/screenshots/feed-scroll.png" width="230" alt="Feed scrolled" /> | <img src="docs/screenshots/post-detail.png" width="230" alt="Post detail with comments" /> |
-| Paginated list of community posts, with image, likes and comments. | The feed loads more posts as you scroll. | Full post with its comment thread and an input to reply. |
+| Feed | Post detail |
+| :--: | :--: |
+| <img src="docs/screenshots/feed.png" width="230" alt="Post feed" /> | <img src="docs/screenshots/post-detail.png" width="230" alt="Post detail with comments" /> |
+| Paginated list of community posts, with image, likes and comments. | Full post with its comment thread and an input to reply. |
 
 | Search | My profile |
 | :--: | :--: |

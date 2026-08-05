@@ -28,10 +28,10 @@ El proyecto está organizado como un **monorepo** siguiendo los principios de
 
 Capturas tomadas en el simulador de iOS.
 
-| Feed | Feed (scroll) | Detalle del post |
-| :--: | :--: | :--: |
-| <img src="docs/screenshots/feed.png" width="230" alt="Feed de posts" /> | <img src="docs/screenshots/feed-scroll.png" width="230" alt="Feed con scroll" /> | <img src="docs/screenshots/post-detail.png" width="230" alt="Detalle del post con comentarios" /> |
-| Lista paginada de posts de la comunidad, con imagen, likes y comentarios. | El feed carga más posts a medida que se hace scroll. | Post completo con su hilo de comentarios y campo para comentar. |
+| Feed | Detalle del post |
+| :--: | :--: |
+| <img src="docs/screenshots/feed.png" width="230" alt="Feed de posts" /> | <img src="docs/screenshots/post-detail.png" width="230" alt="Detalle del post con comentarios" /> |
+| Lista paginada de posts de la comunidad, con imagen, likes y comentarios. | Post completo con su hilo de comentarios y campo para comentar. |
 
 | Búsqueda | Mi perfil |
 | :--: | :--: |
