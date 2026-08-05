@@ -24,6 +24,22 @@ with clear separation between the presentation, domain, and data layers.
 
 ---
 
+## 📱 Screenshots
+
+Captured on the iOS simulator.
+
+| Feed | Feed (scrolled) | Post detail |
+| :--: | :--: | :--: |
+| <img src="docs/screenshots/feed.png" width="230" alt="Post feed" /> | <img src="docs/screenshots/feed-scroll.png" width="230" alt="Feed scrolled" /> | <img src="docs/screenshots/post-detail.png" width="230" alt="Post detail with comments" /> |
+| Paginated list of community posts, with image, likes and comments. | The feed loads more posts as you scroll. | Full post with its comment thread and an input to reply. |
+
+| Search | My profile |
+| :--: | :--: |
+| <img src="docs/screenshots/search.png" width="230" alt="Search for users and posts" /> | <img src="docs/screenshots/profile.png" width="230" alt="User profile" /> |
+| Search with separate tabs for users and posts. | Your own profile with your posts, edit and sign out. |
+
+---
+
 ## 🏗️ Architecture
 
 The codebase is split into a Flutter app plus three internal Dart packages, wired together
